@@ -1,9 +1,9 @@
 import sys
-import database
-import execution_agent
-import analysis_agent
-import root_cause_agent
-import repair_loop_agent
+import database.database as database
+import agents.execution_agent as execution_agent
+import agents.analysis_agent as analysis_agent
+import agents.root_cause_agent as root_cause_agent
+import agents.repair_loop_agent as repair_loop_agent
 import llm_client
 
 # Create the SQLite database and required tables (if they don't already exist)

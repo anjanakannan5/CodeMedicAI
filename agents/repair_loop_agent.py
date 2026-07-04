@@ -1,10 +1,10 @@
-import repair_agent
+import agents.repair_agent as repair_agent
 import llm_client
 import file_writer
-import execution_agent
-import analysis_agent
-import validator_agent
-import report_writer
+import agents.execution_agent as execution_agent
+import agents.analysis_agent as analysis_agent
+import agents.validator_agent as validator_agent
+import report_writer as report_writer
 
 
 def repair_program(current_analysis, repaired_file, max_attempts):
