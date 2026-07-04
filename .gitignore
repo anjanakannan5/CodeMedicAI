@@ -1,0 +1,20 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Database
+*.db
+
+# Generated reports
+repair_report.txt
+
+# Generated repaired code
+sandbox/repaired_user_code.py
+
+# IDE files
+.vscode/
+.idea/
+
+# Environment
+.venv/
+venv/

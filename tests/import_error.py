@@ -1,0 +1,1 @@
+from math import non_existent_function
