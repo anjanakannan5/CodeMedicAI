@@ -3,6 +3,7 @@ import llm_client
 import file_writer
 import execution_agent
 import analysis_agent
+import validator_agent
 import report_writer
 
 
@@ -37,30 +38,35 @@ def repair_program(current_analysis, repaired_file, max_attempts):
 
         # Repair succeeded
         if repair_execution["result"].returncode == 0:
+            
+            validation = validator_agent.validate_repair( current_analysis, repair_execution)
+            
+            if validation["valid"]:
+                print("✓ Validation passed\n")
+                
+                print("==================================================")
+                print("              Repair Successful")
+                print("==================================================")
+                print(f"\nAttempts Used : {attempt + 1}/{max_attempts}")
+                print(f"Repaired File : {repaired_file}\n")
+                print("Program Output :")
+                print(repair_execution["result"].stdout.strip())
+                print("\n==================================================")
 
-            print("==================================================")
-            print("              Repair Successful")
-            print("==================================================")
+                #Report on the error
+                report_writer.save_repair_report(
+                    current_analysis,
+                    attempt + 1,
+                    repaired_file,
+                    repair_execution["result"].stdout.strip()
+                )
 
-            print(f"\nAttempts Used : {attempt + 1}/{max_attempts}")
-            print(f"Repaired File : {repaired_file}\n")
-
-            print("Program Output :")
-            print(repair_execution["result"].stdout.strip())
-
-            print("\n==================================================")
-
-            report_writer.save_repair_report(
-                current_analysis,
-                attempt + 1,
-                repaired_file,
-                repair_execution["result"].stdout.strip()
-            )
-
-            print("\n[Report Writer]")
-            print("✓ repair_report.txt created.")
-
-            return True
+                print("\n[Report Writer]")
+                print("✓ repair_report.txt created.")
+                return True
+            
+            print("✗ Validation failed")
+            print(validation["reason"])
 
         print("✗ Repair failed.\n")
 
